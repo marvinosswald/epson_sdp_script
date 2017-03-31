@@ -1,11 +1,14 @@
 #!/usr/bin/python
 import requests
-import os
+import ConfigParser, os
 
-printerId = os.environ['PRINTER_ID']
-printerIp = os.environ['PRINTER_IP']
-server = os.environ['SERVER_URL']
-printerToken = os.environ['SERVER_AUTH_TOKEN']
+config = ConfigParser.ConfigParser()
+config.read('./config.cfg')
+
+printerId = config.get('PRINTER','ID')
+printerIp = config.get('PRINTER','IP')
+server = config.get('SERVER','URL')
+printerToken = config.get('SERVER','AUTH_TOKEN')
 xmlNoDeviceFound = '<?xml version="1.0" encoding="UTF-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ><soapenv:Body><response success="false" code="DeviceNotFound" status="251854908" battery="0" xmlns="http://www.epson-pos.com/schemas/2011/03/epos-print"/></soapenv:Body></soapenv:Envelope>'
 
 
