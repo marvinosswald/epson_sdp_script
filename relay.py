@@ -17,6 +17,7 @@ if response.status_code == requests.codes.ok:
     try:
         printerResponse = requests.post('http://'+printerIp + '/cgi-bin/epos/service.cgi?devid='+printerId+'&timeout=10000',data=response.text)
         if printerResponse.status_code == requests.codes.ok:
+            xmlNoDeviceFound = printerResponse
             response = requests.post(server +'/api/printers/' + printerId + '/jobs',
                                  headers={'Authorization': 'Bearer ' + printerToken},
                                  data=printerResponse,
