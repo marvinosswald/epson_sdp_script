@@ -26,7 +26,7 @@ if response.status_code == requests.codes.ok:
             requests.post(server +'/api/printers/' + printerId + '/jobs',
                           headers={'Authorization': 'Bearer ' + printerToken},
                           params={'ConnectionType': 'SetRequest'},
-                          data=xmlNoDeviceFound)
+                          data=printerResponse)
     except:
         requests.post(server +'/api/printers/' + printerId + '/jobs',
                       headers={'Authorization': 'Bearer ' + printerToken},
