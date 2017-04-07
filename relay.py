@@ -16,8 +16,8 @@ response = requests.post(server + '/api/printers/'+printerId+'/jobs',headers={'A
 if response.status_code == requests.codes.ok:
     try:
         printerResponse = requests.post('http://'+printerIp + '/cgi-bin/epos/service.cgi?devid='+printerId+'&timeout=10000',data=response.text)
+        xmlNoDeviceFound = printerResponse
         if printerResponse.status_code == requests.codes.ok:
-            xmlNoDeviceFound = printerResponse
             response = requests.post(server +'/api/printers/' + printerId + '/jobs',
                                  headers={'Authorization': 'Bearer ' + printerToken},
                                  data=printerResponse,
@@ -27,7 +27,7 @@ if response.status_code == requests.codes.ok:
                           headers={'Authorization': 'Bearer ' + printerToken},
                           params={'ConnectionType': 'SetRequest'},
                           data=printerResponse)
-    except:
+    except requests.exceptions.ConnectionError:
         requests.post(server +'/api/printers/' + printerId + '/jobs',
                       headers={'Authorization': 'Bearer ' + printerToken},
                       params={'ConnectionType': 'SetRequest'},
